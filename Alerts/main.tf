@@ -6,7 +6,7 @@ resource "newrelic_alert_policy" "ResourcePolicy" {
 }
 
 resource "newrelic_nrql_alert_condition" "Condition" {
-     policy_id                      = newrelic_alert_policy.ResourcePolicy.id 
+    policy_id                      = newrelic_alert_policy.ResourcePolicy.id 
 
     for_each = var.alert_conditions
  
@@ -42,53 +42,53 @@ resource "newrelic_nrql_alert_condition" "Condition" {
     threshold_occurrences = "ALL"
   }
 }
-resource "newrelic_notification_channel" "NC" {
+# resource "newrelic_notification_channel" "NC" {
  
   
-   for_each = var.notification_channel
-  name = each.value.name
-  type = each.value.type
-   destination_id = newrelic_notification_destination.ND[each.key].id 
-  product = each.value.product
+#    for_each = var.notification_channel
+#   name = each.value.name
+#   type = each.value.type
+#    destination_id = newrelic_notification_destination.ND[each.key].id 
+#   product = each.value.product
 
  
 
-  property {
-    key = each.value.key-1
-    value = each.value.value
-  }
-}
-resource "newrelic_notification_destination" "ND" {
+#   property {
+#     key = each.value.key-1
+#     value = each.value.value
+#   }
+# }
+# resource "newrelic_notification_destination" "ND" {
     
-  for_each = var.notification_destination
+#   for_each = var.notification_destination
 
-  name = each.value.name
-  type = each.value.type
+#   name = each.value.name
+#   type = each.value.type
 
-  property {
-    key = each.value.key-2
-    value = each.value.value
-  }
-}
-resource "newrelic_workflow" "workflowAlerts" {
-  for_each = var.newrelicWorkflow
-  name = each.value.name
-  muting_rules_handling = each.value.muting_rules_handling
+#   property {
+#     key = each.value.key-2
+#     value = each.value.value
+#   }
+# }
+# resource "newrelic_workflow" "workflowAlerts" {
+#   for_each = var.newrelicWorkflow
+#   name = each.value.name
+#   muting_rules_handling = each.value.muting_rules_handling
 
-  issues_filter {
-    name = each.value.nameI
-    type = each.value.typeI
+#   issues_filter {
+#     name = each.value.nameI
+#     type = each.value.typeI
 
-    predicate {
-      attribute = each.value.attribute
-      operator = each.value.operator
-      values = [ newrelic_alert_policy.ResourcePolicy.id ]
-    }
-  }
+#     predicate {
+#       attribute = each.value.attribute
+#       operator = each.value.operator
+#       values = [ newrelic_alert_policy.ResourcePolicy.id ]
+#     }
+#   }
 
-  destination {
-    channel_id = newrelic_notification_channel.NC[each.key].id
+#   destination {
+#     channel_id = newrelic_notification_channel.NC[each.key].id
 
-  }
-}
+#   }
+# }
  

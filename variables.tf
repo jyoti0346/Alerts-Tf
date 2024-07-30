@@ -63,6 +63,7 @@ variable "newrelicWorkflow" {
     typeI = string
     attribute = string
     operator = string
+    filter_values=any
     
 
 
